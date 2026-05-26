@@ -1,0 +1,39 @@
+name: forex-news
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # كل 15 دقيقة
+  workflow_dispatch:
+
+jobs:
+  post-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install requests
+
+      # استرجاع قائمة الأخبار المنشورة من cache
+      - name: استرجاع cache الأخبار
+        uses: actions/cache@v4
+        with:
+          path: posted_news.json
+          key: posted-news-cache
+
+      - run: python news_bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      # حفظ قائمة الأخبار المنشورة
+      - name: حفظ cache الأخبار
+        uses: actions/cache@v4
+        with:
+          path: posted_news.json
+          key: posted-news-cache
