@@ -1,4 +1,17 @@
-test-manual:
+name: alerts
+
+on:
+  schedule:
+    - cron: '50 23 * * 0-4'
+    - cron: '50 8 * * 1-5'
+    - cron: '50 5 * * 1-5'
+    - cron: '50 13 * * 1-5'
+    - cron: '50 14 * * 1-5'
+    - cron: '50 19 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  test-manual:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
@@ -11,4 +24,94 @@ test-manual:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "✅ تجربة - البوت يعمل بنجاح! سيبدأ النشر التلقائي في الأوقات المحددة."
+          MESSAGE: "test - البوت يعمل بنجاح"
+
+  open-japan:
+    if: github.event.schedule == '50 23 * * 0-4'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه الاسواق الاسيوية - 10 دقائق على افتتاح بورصة طوكيو - راقب USDJPY - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+
+  open-london:
+    if: github.event.schedule == '50 8 * * 1-5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه الاسواق الاوروبية - 10 دقائق على افتتاح بورصة لندن - راقب GBPUSD - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+
+  close-japan:
+    if: github.event.schedule == '50 5 * * 1-5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه اغلاق الاسواق الاسيوية - 10 دقائق على اغلاق بورصة طوكيو - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+
+  open-usa:
+    if: github.event.schedule == '50 13 * * 1-5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه الاسواق الامريكية - 10 دقائق على افتتاح وول ستريت - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+
+  close-london:
+    if: github.event.schedule == '50 14 * * 1-5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه اغلاق الاسواق الاوروبية - 10 دقائق على اغلاق بورصة لندن - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+
+  close-usa:
+    if: github.event.schedule == '50 19 * * 1-5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          MESSAGE: "تنبيه اغلاق الاسواق الامريكية - 10 دقائق على اغلاق وول ستريت - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
