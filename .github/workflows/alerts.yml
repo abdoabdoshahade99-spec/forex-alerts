@@ -2,11 +2,9 @@ name: alerts
 
 on:
   schedule:
-    - cron: '45 22 * * 0-4'  # افتتاح طوكيو
-    - cron: '45 7 * * 1-5'   # افتتاح لندن + إغلاق طوكيو
-    - cron: '15 13 * * 1-5'  # افتتاح أمريكا
-    - cron: '45 16 * * 1-5'  # إغلاق لندن
-    - cron: '45 19 * * 1-5'  # إغلاق أمريكا
+    - cron: '50 22 * * 0-4'  # 1:50 ص — افتتاح طوكيو
+    - cron: '50 7 * * 1-5'   # 10:50 ص — افتتاح لندن
+    - cron: '20 13 * * 1-5'  # 4:20 م — افتتاح نيويورك
   workflow_dispatch:
 
 jobs:
@@ -26,7 +24,7 @@ jobs:
           MESSAGE: "test - البوت يعمل بنجاح"
 
   open-japan:
-    if: github.event.schedule == '45 22 * * 0-4'
+    if: github.event.schedule == '50 22 * * 0-4'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,10 +36,10 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "تنبيه الاسواق الاسيوية - 15 دقيقة على افتتاح بورصة طوكيو - راقب USDJPY - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+          MESSAGE: "🔔 تنبيه | الاسواق الاسيوية - 10 دقائق على افتتاح بورصة طوكيو صباحا - راقب USDJPY - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول القناة الخاصة https://t.me/inv7mindforex/13964"
 
-  open-london-close-japan:
-    if: github.event.schedule == '45 7 * * 1-5'
+  open-london:
+    if: github.event.schedule == '50 7 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,10 +51,10 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "تنبيه الاسواق الاوروبية - 15 دقيقة على افتتاح بورصة لندن واغلاق طوكيو - راقب GBPUSD و USDJPY - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+          MESSAGE: "🔔 تنبيه | الاسواق الاوروبية - 10 دقائق على افتتاح بورصة لندن صباحا - راقب GBPUSD و EURUSD - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول القناة الخاصة https://t.me/inv7mindforex/13964"
 
   open-usa:
-    if: github.event.schedule == '15 13 * * 1-5'
+    if: github.event.schedule == '20 13 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -68,34 +66,4 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "تنبيه الاسواق الامريكية - 15 دقيقة على افتتاح وول ستريت - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
-
-  close-london:
-    if: github.event.schedule == '45 16 * * 1-5'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: pip install requests
-      - run: python bot.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "تنبيه اغلاق الاسواق الاوروبية - 15 دقيقة على اغلاق بورصة لندن - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
-
-  close-usa:
-    if: github.event.schedule == '45 19 * * 1-5'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: pip install requests
-      - run: python bot.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-          MESSAGE: "تنبيه اغلاق الاسواق الامريكية - 15 دقيقة على اغلاق وول ستريت - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول قناة الخاصة https://t.me/inv7mindforex/13964"
+          MESSAGE: "🔔 تنبيه | الاسواق الامريكية - 10 دقائق على افتتاح وول ستريت مساءا - راقب EURUSD و GBPUSD و الذهب - القناة الخاصة https://t.me/abdoshahade1 - القناة العامة https://t.me/inv7mindforex - دخول القناة الخاصة https://t.me/inv7mindforex/13964"
